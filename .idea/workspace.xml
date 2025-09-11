@@ -4,18 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2171f080-822e-467c-839a-f2b8d5ba6b37" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/ToDoFastAPIProject.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/dependencies.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tasks/Задачи FastAPI.docx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tasks/Задачи FastAPI.txt" afterDir="false" />
-    </list>
+    <list default="true" id="2171f080-822e-467c-839a-f2b8d5ba6b37" name="Changes" comment="Начало проекта" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -30,6 +19,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="acee5025-9506-455c-92ad-6810a6877626" />
   </component>
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 6
@@ -49,6 +41,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -73,11 +66,24 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1757575433323</updated>
-      <workItem from="1757575434486" duration="1627000" />
+      <workItem from="1757575434486" duration="1775000" />
     </task>
+    <task id="LOCAL-00001" summary="Начало проекта">
+      <option name="closed" value="true" />
+      <created>1757577140266</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1757577140266</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Начало проекта" />
+    <option name="LAST_COMMIT_MESSAGE" value="Начало проекта" />
   </component>
 </project>
