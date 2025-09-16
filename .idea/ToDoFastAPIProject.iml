@@ -7,4 +7,12 @@
     <orderEntry type="jdk" jdkName="Python 3.13 (ToDoFastAPIProject)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
+  <component name="PyNamespacePackagesService">
+    <option name="namespacePackageFolders">
+      <list>
+        <option value="$MODULE_DIR$/ToDoApp/core" />
+        <option value="$MODULE_DIR$/ToDoApp/core/utils" />
+      </list>
+    </option>
+  </component>
 </module>
