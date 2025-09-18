@@ -4,12 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2171f080-822e-467c-839a-f2b8d5ba6b37" name="Changes" comment="Логи и добавление задач">
-      <change afterPath="$PROJECT_DIR$/tests/SampleTests.py" afterDir="false" />
+    <list default="true" id="2171f080-822e-467c-839a-f2b8d5ba6b37" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ToDoApp/core/data/tasks.json" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoApp/core/data/tasks.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ToDoApp/core/utils/DataWork.py" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoApp/core/utils/DataWork.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ToDoApp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoApp/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/SampleTests.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/SampleTests.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,24 +50,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.SampleTests.executor": "Run",
-    "Python.ToDoAppTest.executor": "Debug",
-    "Python.main.executor": "Debug",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/sultan/PycharmProjects/ToDoFastAPIProject/ToDoApp/main.py",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.SampleTests.executor&quot;: &quot;Run&quot;,
+    &quot;Python.ToDoAppTest.executor&quot;: &quot;Debug&quot;,
+    &quot;Python.main.executor&quot;: &quot;Debug&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/sultan/PycharmProjects/ToDoFastAPIProject/ToDoApp/main.py&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\sultan\PycharmProjects\ToDoFastAPIProject\ToDoApp\core\data" />
@@ -151,7 +151,8 @@
       <workItem from="1758095567150" duration="4777000" />
       <workItem from="1758100411602" duration="4837000" />
       <workItem from="1758108176815" duration="1088000" />
-      <workItem from="1758177431681" duration="2763000" />
+      <workItem from="1758177431681" duration="2797000" />
+      <workItem from="1758191762740" duration="3071000" />
     </task>
     <task id="LOCAL-00001" summary="Начало проекта">
       <option name="closed" value="true" />
@@ -193,7 +194,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758109225061</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Удаление задач">
+      <option name="closed" value="true" />
+      <created>1758180245760</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1758180245761</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -214,86 +223,11 @@
     <MESSAGE value="Начало проекта" />
     <MESSAGE value="Тесты с записью и чтением json файла" />
     <MESSAGE value="Логи и добавление задач" />
-    <option name="LAST_COMMIT_MESSAGE" value="Логи и добавление задач" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ToDoApp/main.py</url>
-          <line>58</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ToDoApp/main.py</url>
-          <line>59</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ToDoApp/main.py</url>
-          <line>60</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ToDoApp/main.py</url>
-          <line>61</line>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ToDoApp/main.py</url>
-          <line>62</line>
-          <option name="timeStamp" value="15" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ToDoApp/main.py</url>
-          <line>63</line>
-          <option name="timeStamp" value="16" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ToDoApp/main.py</url>
-          <line>64</line>
-          <option name="timeStamp" value="17" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ToDoApp/main.py</url>
-          <line>65</line>
-          <option name="timeStamp" value="18" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ToDoApp/main.py</url>
-          <line>66</line>
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ToDoApp/main.py</url>
-          <line>69</line>
-          <option name="timeStamp" value="20" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ToDoApp/main.py</url>
-          <line>70</line>
-          <option name="timeStamp" value="21" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ToDoApp/main.py</url>
-          <line>72</line>
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ToDoApp/main.py</url>
-          <line>74</line>
-          <option name="timeStamp" value="23" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ToDoApp/main.py</url>
-          <line>67</line>
-          <option name="timeStamp" value="24" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="Удаление задач" />
+    <option name="LAST_COMMIT_MESSAGE" value="Удаление задач" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ToDoFastAPIProject$SampleTests.coverage" NAME="SampleTests Coverage Results" MODIFIED="1758178046577" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/ToDoFastAPIProject$SampleTests.coverage" NAME="SampleTests Coverage Results" MODIFIED="1758203834924" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/ToDoFastAPIProject$main.coverage" NAME="main Coverage Results" MODIFIED="1758180131940" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/ToDoFastAPIProject$ToDoAppTest.coverage" NAME="ToDoAppTest Coverage Results" MODIFIED="1758179634573" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
   </component>

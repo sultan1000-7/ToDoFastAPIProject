@@ -32,7 +32,7 @@ def get_todo():
 
 
 @app.get("/ToDo/{id_todo}")
-def get_todo_with_id(id_todo: int):
+def get_todo_by_id(id_todo: int):
     data = DataWork.get_json(filepath)
     for task in data:
         if task["id"] == id_todo:
@@ -56,7 +56,7 @@ def post_task(new_task: Optional[str]):
 
 
 @app.get('/ToDo/delete/task/{id_todo}')
-def delete_task_for_id(id_todo: int):
+def delete_task_by_id(id_todo: int):
     tasks = DataWork.get_json(filepath)
     i = 0
     is_delete = False
@@ -73,6 +73,25 @@ def delete_task_for_id(id_todo: int):
         return {"status": "ok"}
 
     return {"status": "error", "message": f"{id_todo} id already exists"}
+
+
+@app.get("/ToDo/update/task")
+def update_task_by_id(id_todo: int, new_task: str):
+    tasks = DataWork.get_json(filepath)
+    i = 0
+    is_update = False
+    while i < len(tasks) and not is_update:
+        task = tasks[i]
+        if task["id"] == id_todo:
+            task["task"] = new_task
+            is_update = True
+        i += 1
+    if is_update:
+        DataWork.change_json(tasks, filepath)
+
+        return {"status" : "ok"}
+
+    return {"status" : "error", "message" : f"id {id_todo} not found"}
 
 
 if __name__ == "__main__":

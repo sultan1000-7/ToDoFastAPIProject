@@ -1,3 +1,5 @@
-arr = ["qw", "ee"]
+arr = [{"id": 3, "task": "watch supernatural"}, {"id": 4, "task": "play a game"}]
 
-print()
+task = arr[0]
+task["id"] = 1
+print(arr)

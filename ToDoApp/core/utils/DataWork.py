@@ -9,6 +9,7 @@ def get_json(path_to_file: str):
 
 def change_json(arr: list, path_to_file: str):
     with open(path_to_file, 'w') as file:
+        arr = __sort_json(arr)
         file.write(json.dumps(arr))
 
 
@@ -45,6 +46,13 @@ def get_next_id(filepath : str):
         elif task_id == 1:
             result_id = 2
 
+
+
     return result_id
+
+
+def __sort_json(tasks: list):
+    tasks = sorted(tasks, key=lambda d: d["id"])
+    return tasks
 
 
