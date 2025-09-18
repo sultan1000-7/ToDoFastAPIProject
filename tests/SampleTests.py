@@ -1,0 +1,3 @@
+arr = ["qw", "ee"]
+
+print()

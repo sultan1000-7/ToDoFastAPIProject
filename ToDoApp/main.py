@@ -38,16 +38,41 @@ def get_todo_with_id(id_todo: int):
         if task["id"] == id_todo:
             return task
 
+
 @app.get('/ToDo/add/task')
 def post_task(new_task: Optional[str]):
+    next_id = DataWork.get_next_id(filepath)
     if new_task is None:
         logging.error(f"/ToDo/add/task incorrect variable values: {new_task}")
-        return {"status" : "error" , "description" : "incorrect variable values"}
+        return {"status": "error", "message": "incorrect variable values"}
+    if next_id == -1 and next_id == 0:
+        logging.error(f"/ToDo/add/task error kin task id: {next_id}")
+        return {"status": "error", "message": "error in task id"}
     else:
         data = DataWork.get_json(filepath)
-        data.append({"id" : DataWork.get_next_id(filepath), "task" : new_task})
+        data.append({"id": next_id, "task": new_task})
         DataWork.change_json(data, filepath)
-        return {"status" : "ok"}
+        return {"status": "ok"}
+
+
+@app.get('/ToDo/delete/task/{id_todo}')
+def delete_task_for_id(id_todo: int):
+    tasks = DataWork.get_json(filepath)
+    i = 0
+    is_delete = False
+    while i < len(tasks) and not is_delete:
+        task = tasks[i]
+        if task["id"] == id_todo:
+            tasks.remove(task)
+            is_delete = True
+        i += 1
+
+    if is_delete:
+        DataWork.change_json(tasks, filepath)
+
+        return {"status": "ok"}
+
+    return {"status": "error", "message": f"{id_todo} id already exists"}
 
 
 if __name__ == "__main__":
