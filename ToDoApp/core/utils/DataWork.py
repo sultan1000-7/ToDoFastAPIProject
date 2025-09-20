@@ -23,7 +23,9 @@ def get_next_id(filepath : str):
     tasks = get_json(filepath)
     result_id = 0
 
-    if len(tasks) > 1:
+    if len(tasks) == 0:
+        return 1
+    elif len(tasks) > 1:
         last_id = 1
         i = 0
         while result_id == 0 and i < len(tasks):
