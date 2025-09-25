@@ -4,19 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2171f080-822e-467c-839a-f2b8d5ba6b37" name="Changes" comment="Тестирование Pydantic, новая папка schemas для моделей Pydantic">
+    <list default="true" id="2171f080-822e-467c-839a-f2b8d5ba6b37" name="Changes" comment="Начат функционал подключения Postgres">
       <change afterPath="$PROJECT_DIR$/ToDoApp/core/models/__init__.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/ToDoApp/core/models/task_model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ToDoApp/core/utils/DatabaseWork.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/ToDoApp/dababase/__init__.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/ToDoApp/dababase/db_helper.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/SQLAlchemyTest.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ToDoApp/core/data/schemas_tasks.json" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoApp/core/data/schemas_tasks.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ToDoApp/core/schemas/task_schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoApp/core/schemas/task_schema.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ToDoApp/core/utils/DataWork.py" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoApp/core/utils/DataWork.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ToDoApp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoApp/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dependencies.txt" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/log/py_log.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/py_log.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/PydanticTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/PydanticTest.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,7 +32,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="test_pydantic" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -66,13 +65,14 @@
   "keyToString": {
     "Python.DataWork.executor": "Run",
     "Python.PydanticTest.executor": "Run",
+    "Python.SQLAlchemyTest.executor": "Run",
     "Python.SampleTests.executor": "Run",
     "Python.ToDoAppTest.executor": "Debug",
     "Python.main.executor": "Debug",
     "Python.task_schema.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "test__pydantic",
+    "git-widget-placeholder": "test__sqlalchemy",
     "last_opened_file_path": "C:/Users/sultan/PycharmProjects/ToDoFastAPIProject/ToDoApp/main.py",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -91,7 +91,7 @@
       <recent name="C:\Users\sultan\PycharmProjects\ToDoFastAPIProject\tasks" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager">
     <configuration name="ToDoAppTest" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
       <module name="ToDoFastAPIProject" />
       <option name="ENV_FILES" value="" />
@@ -269,7 +269,8 @@
     <MESSAGE value="Удаление задач" />
     <MESSAGE value="Обновление задач" />
     <MESSAGE value="Тестирование Pydantic, новая папка schemas для моделей Pydantic" />
-    <option name="LAST_COMMIT_MESSAGE" value="Тестирование Pydantic, новая папка schemas для моделей Pydantic" />
+    <MESSAGE value="Начат функционал подключения Postgres" />
+    <option name="LAST_COMMIT_MESSAGE" value="Начат функционал подключения Postgres" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -319,5 +320,6 @@
     <SUITE FILE_PATH="coverage/ToDoFastAPIProject$task_schema.coverage" NAME="task_schema Coverage Results" MODIFIED="1758358766592" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ToDoApp/core/schemas" />
     <SUITE FILE_PATH="coverage/ToDoFastAPIProject$ToDoAppTest.coverage" NAME="ToDoAppTest Coverage Results" MODIFIED="1758179634573" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/ToDoFastAPIProject$PydanticTest.coverage" NAME="PydanticTest Coverage Results" MODIFIED="1758787255532" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/ToDoFastAPIProject$SQLAlchemyTest.coverage" NAME="SQLAlchemyTest Coverage Results" MODIFIED="1758794415172" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
   </component>
 </project>

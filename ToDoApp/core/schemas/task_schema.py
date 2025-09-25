@@ -9,7 +9,7 @@ class Task(BaseModel):
     # id: int = Field(gt=0, default_factory=DataWork.get_next_id("C:\\Users\\sultan\\PycharmProjects\\ToDoFastAPIProject\\ToDoApp\\core\\data\\schemas_tasks.json"), description="Уникальный идентификатор задачи", alias="task_id")
     # name: str = Field(default="task", title="Название задачи", alias="task_name")
     id: int = Field(gt=0, default_factory=lambda: DataWork.get_next_id("C:\\Users\\sultan\\PycharmProjects\\ToDoFastAPIProject\\ToDoApp\\core\\data\\schemas_tasks.json"), description="Уникальный идентификатор задачи")
-    name: str = Field(default="task", title="Название задачи", alias="task_name")
+    title: str = Field(default="task", title="Название задачи", alias="task_name")
 
     @classmethod
     @field_validator("id", mode="before")

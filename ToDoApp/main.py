@@ -6,10 +6,11 @@ from fastapi import FastAPI
 from fastapi.openapi.docs import get_swagger_ui_html
 from typing import Optional
 
-from ToDoApp.core.utils import DataWork
+from ToDoApp.core.utils import DataWork, DatabaseWork
 from ToDoApp.core.schemas.task_schema import Task
-from .dababase import db_helper
-from .core.models import task_model
+from ToDoApp.core.models.task_model import Tasks
+from ToDoApp.dababase.db_helper import db
+
 
 app = FastAPI()
 
@@ -41,6 +42,9 @@ def get_todo():
 def get_todo():
     return DataWork.get_json(schemas_filepath)
 
+@app.get("/test/ToDo")
+def get_todo():
+    return DatabaseWork.get_all_tasks()
 
 @app.get("/old/ToDo/{id_todo}")
 def get_todo_by_id(id_todo: int):
@@ -56,6 +60,16 @@ def get_todo_by_id(id_todo: int):
     for task in data:
         if task["id"] == id_todo:
             return task
+
+@app.get("/test/ToDo/{task_id}")
+def get_todo_by_id(task_id: int):
+    if DatabaseWork.is_id(task_id):
+        task = DatabaseWork.get_task(task_id)
+        if task.id == task_id:
+            return task.__dict__
+    else:
+        return {"status" : "error", "message" : "there is no such id."}
+
 
 
 @app.get('/old/ToDo/add/task')
@@ -79,6 +93,20 @@ def add_task_from_schemas(new_task: Optional[str]):
     try:
         task = Task(name=new_task)
         data = DataWork.get_json(schemas_filepath)
+        data.append(task.model_dump())
+        DataWork.change_json(data, schemas_filepath)
+
+        return {"status": "ok"}
+    except Exception as e:
+        return {"status": "error", "message": f"{e}"}
+
+
+
+@app.get("/test/ToDo/add/task")
+def add_task_from_schemas(new_task: Optional[str]):
+    try:
+        task = Task(name=new_task)
+        data = DatabaseWork.
         data.append(task.model_dump())
         DataWork.change_json(data, schemas_filepath)
 
