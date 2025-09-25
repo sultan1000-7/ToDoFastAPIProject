@@ -12,11 +12,14 @@ def add_task(title: str):
     db.session.add(new_task)
     db.session.commit()
 
-def display_tasks():
+def get_tasks():
     statement = select(Tasks)
-    result = db.session.scalars(statement)
+    tasks = db.session.scalars(statement)
 
-    for field in result:
-        print(f"{field.id} - {field.title}")
+    result = []
+    for field in tasks:
+        result.append({"id" : field.id, "title" : field.title})
 
-display_tasks()
+    return result
+
+print(get_tasks())
