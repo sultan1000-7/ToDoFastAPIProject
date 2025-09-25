@@ -8,21 +8,21 @@ from ..utils import DataWork
 class Task(BaseModel):
     # id: int = Field(gt=0, default_factory=DataWork.get_next_id("C:\\Users\\sultan\\PycharmProjects\\ToDoFastAPIProject\\ToDoApp\\core\\data\\schemas_tasks.json"), description="Уникальный идентификатор задачи", alias="task_id")
     # name: str = Field(default="task", title="Название задачи", alias="task_name")
-    id: int = Field(gt=0, description="Уникальный идентификатор задачи")
+    id: int = Field(gt=0, default_factory=lambda: DataWork.get_next_id("C:\\Users\\sultan\\PycharmProjects\\ToDoFastAPIProject\\ToDoApp\\core\\data\\schemas_tasks.json"), description="Уникальный идентификатор задачи")
     name: str = Field(default="task", title="Название задачи", alias="task_name")
 
-    # @classmethod
-    # @field_validator("id", mode="before")
-    # def validate_id(cls, task_id):
-    #     if task_id == -1 or task_id == 0:
-    #         raise ValueError("Error generating the id")
-    #
-    #     return task_id
-    #
-    # @classmethod
-    # @field_validator("name", mode="before")
-    # def validate_name(cls, task_name: str):
-    #     if task_name is None:
-    #         raise ValueError("incorrect variable values")
+    @classmethod
+    @field_validator("id", mode="before")
+    def validate_id(cls, task_id):
+        if task_id == -1 or task_id == 0:
+            raise ValueError("Error generating the id")
 
-        # return task_name
+        return task_id
+
+    @classmethod
+    @field_validator("name", mode="before")
+    def validate_name(cls, name: str):
+        if name is None:
+            raise ValueError("incorrect variable values")
+
+        return name
