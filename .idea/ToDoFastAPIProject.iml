@@ -12,6 +12,9 @@
       <list>
         <option value="$MODULE_DIR$/ToDoApp/core" />
         <option value="$MODULE_DIR$/ToDoApp/core/utils" />
+        <option value="$MODULE_DIR$/ToDoApp" />
+        <option value="$MODULE_DIR$/ToDoApp/api" />
+        <option value="$MODULE_DIR$/ToDoApp/core/data" />
       </list>
     </option>
   </component>

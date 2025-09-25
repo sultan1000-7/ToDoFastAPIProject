@@ -4,12 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2171f080-822e-467c-839a-f2b8d5ba6b37" name="Changes" comment="">
+    <list default="true" id="2171f080-822e-467c-839a-f2b8d5ba6b37" name="Changes" comment="Тестирование Pydantic, новая папка schemas для моделей Pydantic">
+      <change afterPath="$PROJECT_DIR$/ToDoApp/core/models/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ToDoApp/core/models/task_model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ToDoApp/dababase/__init__.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ToDoApp/dababase/db_helper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ToDoApp/core/data/tasks.json" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoApp/core/data/tasks.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ToDoApp/core/data/schemas_tasks.json" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoApp/core/data/schemas_tasks.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ToDoApp/core/schemas/task_schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoApp/core/schemas/task_schema.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ToDoApp/core/utils/DataWork.py" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoApp/core/utils/DataWork.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ToDoApp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoApp/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/SampleTests.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/SampleTests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependencies.txt" beforeDir="false" afterPath="$PROJECT_DIR$/dependencies.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/py_log.log" beforeDir="false" afterPath="$PROJECT_DIR$/log/py_log.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/PydanticTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/PydanticTest.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +31,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -50,24 +62,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.SampleTests.executor&quot;: &quot;Run&quot;,
-    &quot;Python.ToDoAppTest.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.main.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/sultan/PycharmProjects/ToDoFastAPIProject/ToDoApp/main.py&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;org.jetbrains.plugins.github.ui.GithubSettingsConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.DataWork.executor": "Run",
+    "Python.PydanticTest.executor": "Run",
+    "Python.SampleTests.executor": "Run",
+    "Python.ToDoAppTest.executor": "Debug",
+    "Python.main.executor": "Debug",
+    "Python.task_schema.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "test__pydantic",
+    "last_opened_file_path": "C:/Users/sultan/PycharmProjects/ToDoFastAPIProject/ToDoApp/main.py",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.intellij.pycharm.community.ide.impl.configuration.PythonContentEntriesConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\sultan\PycharmProjects\ToDoFastAPIProject\ToDoApp\core\data" />
@@ -152,7 +167,19 @@
       <workItem from="1758100411602" duration="4837000" />
       <workItem from="1758108176815" duration="1088000" />
       <workItem from="1758177431681" duration="2797000" />
-      <workItem from="1758191762740" duration="3071000" />
+      <workItem from="1758191762740" duration="3935000" />
+      <workItem from="1758223160966" duration="285000" />
+      <workItem from="1758265909322" duration="1543000" />
+      <workItem from="1758306707891" duration="718000" />
+      <workItem from="1758307578921" duration="50000" />
+      <workItem from="1758307685336" duration="1642000" />
+      <workItem from="1758309404367" duration="2087000" />
+      <workItem from="1758354818157" duration="4335000" />
+      <workItem from="1758552535629" duration="3908000" />
+      <workItem from="1758717574304" duration="218000" />
+      <workItem from="1758719334974" duration="11000" />
+      <workItem from="1758728255449" duration="2705000" />
+      <workItem from="1758784820249" duration="5744000" />
     </task>
     <task id="LOCAL-00001" summary="Начало проекта">
       <option name="closed" value="true" />
@@ -202,7 +229,23 @@
       <option name="project" value="LOCAL" />
       <updated>1758180245761</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Обновление задач">
+      <option name="closed" value="true" />
+      <created>1758205642295</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1758205642295</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Тестирование Pydantic, новая папка schemas для моделей Pydantic">
+      <option name="closed" value="true" />
+      <created>1758359172662</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1758359172662</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -224,11 +267,57 @@
     <MESSAGE value="Тесты с записью и чтением json файла" />
     <MESSAGE value="Логи и добавление задач" />
     <MESSAGE value="Удаление задач" />
-    <option name="LAST_COMMIT_MESSAGE" value="Удаление задач" />
+    <MESSAGE value="Обновление задач" />
+    <MESSAGE value="Тестирование Pydantic, новая папка schemas для моделей Pydantic" />
+    <option name="LAST_COMMIT_MESSAGE" value="Тестирование Pydantic, новая папка schemas для моделей Pydantic" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ToDoApp/core/utils/DataWork.py</url>
+          <line>73</line>
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ToDoApp/core/utils/DataWork.py</url>
+          <line>74</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ToDoApp/core/utils/DataWork.py</url>
+          <line>76</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ToDoApp/core/utils/DataWork.py</url>
+          <line>27</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ToDoApp/core/utils/DataWork.py</url>
+          <line>28</line>
+          <option name="timeStamp" value="10" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ToDoApp/core/utils/DataWork.py</url>
+          <line>29</line>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/ToDoApp/core/utils/DataWork.py</url>
+          <line>30</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/ToDoFastAPIProject$SampleTests.coverage" NAME="SampleTests Coverage Results" MODIFIED="1758203834924" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/ToDoFastAPIProject$main.coverage" NAME="main Coverage Results" MODIFIED="1758180131940" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/ToDoFastAPIProject$SampleTests.coverage" NAME="SampleTests Coverage Results" MODIFIED="1758356677448" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+    <SUITE FILE_PATH="coverage/ToDoFastAPIProject$DataWork.coverage" NAME="DataWork Coverage Results" MODIFIED="1758730443356" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ToDoApp/core/utils" />
+    <SUITE FILE_PATH="coverage/ToDoFastAPIProject$main.coverage" NAME="main Coverage Results" MODIFIED="1758787500717" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/ToDoFastAPIProject$task_schema.coverage" NAME="task_schema Coverage Results" MODIFIED="1758358766592" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ToDoApp/core/schemas" />
     <SUITE FILE_PATH="coverage/ToDoFastAPIProject$ToDoAppTest.coverage" NAME="ToDoAppTest Coverage Results" MODIFIED="1758179634573" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/ToDoFastAPIProject$PydanticTest.coverage" NAME="PydanticTest Coverage Results" MODIFIED="1758787255532" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
   </component>
 </project>

@@ -1,16 +1,34 @@
+import os
 import json
+import logging
+from json import JSONDecodeError
+
+from ToDoApp.core.schemas.task_schema import Task
+
+
+
+
+filepath_for_logging = "C:\\Users\\sultan\\PycharmProjects\\ToDoFastAPIProject\\log\\py_log.log"
+
+logging.basicConfig(level=logging.DEBUG, filename=filepath_for_logging, filemode="w",
+                    format="%(asctime)s %(levelname)s %(message)s")
 
 
 def get_json(path_to_file: str):
-    with open(path_to_file, 'r') as file:
-        return json.load(file)
+    try:
+        myjson = json.load(open(path_to_file, 'r'))
+        return myjson
+    except JSONDecodeError as e:
+        logging.error(e)
+        return []
 
 
 
 def change_json(arr: list, path_to_file: str):
-    with open(path_to_file, 'w') as file:
-        arr = __sort_json(arr)
-        file.write(json.dumps(arr))
+    if arr is not None and len(arr) > 0:
+        with open(path_to_file, 'w') as file:
+            arr = __sort_json(arr)
+            file.write(json.dumps(arr))
 
 
 def get_next_id(filepath : str):
@@ -23,7 +41,9 @@ def get_next_id(filepath : str):
     tasks = get_json(filepath)
     result_id = 0
 
-    if len(tasks) > 1:
+    if len(tasks) == 0:
+        return 1
+    elif len(tasks) > 1:
         last_id = 1
         i = 0
         while result_id == 0 and i < len(tasks):
@@ -53,6 +73,7 @@ def get_next_id(filepath : str):
 
 def __sort_json(tasks: list):
     tasks = sorted(tasks, key=lambda d: d["id"])
+
     return tasks
 
 
