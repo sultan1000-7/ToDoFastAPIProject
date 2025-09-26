@@ -1,13 +1,12 @@
 import logging
 
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy import select, delete
+from sqlalchemy import select, delete, update
 
 from ..models.task_model import Tasks
 from ...dababase.db_helper import db
 from ..schemas.task_schema import Task
 from ..utils import DataWork
-
 
 path_to_logging = "C:\\Users\\sultan\\PycharmProjects\\ToDoFastAPIProject\\log\\py_log.log"
 
@@ -40,16 +39,36 @@ def add_task(task: Task):
         db.session.add(new_task)
         db.session.commit()
 
+        return new_task
+
+    return None
+
 
 def delete_task(task_id: int):
     if task_id is not None:
-        result = db.session.query()
-        _ = delete(Tasks).where(Tasks.id == task_id)
+        task = db.session.scalar(select(Tasks).where(Tasks.id == task_id))
 
-        if result is not None:
-            return result
+        logging.debug(task)
+
+        if task is None:
+            return task
+
+        # db.session.delete(db.session.scalar(select(Tasks).where(Tasks.id == task_id)))
+        db.session.query(Tasks).filter(Tasks.id == task_id).delete()
+        db.session.commit()
+
+        return task
+
+    return None
 
 
+def update_task(task_id: int, new_task: str):
+    if task_id is not None and new_task is not None:
+        db.session.query(Tasks).filter(Tasks.id == task_id).update({"title": new_task})
+        db.session.commit()
+        return new_task
+
+    return None
 
 
 def is_id(task_id: int):
@@ -64,6 +83,6 @@ def is_id(task_id: int):
 def __db_to_list(tasks):
     result = []
     for task in tasks:
-        result.append({"id" : task.id, "title" : task.title})
+        result.append({"id": task.id, "title": task.title})
 
     return result

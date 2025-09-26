@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2171f080-822e-467c-839a-f2b8d5ba6b37" name="Changes" comment="Начат функционал подключения Postgres">
+    <list default="true" id="2171f080-822e-467c-839a-f2b8d5ba6b37" name="Changes" comment="Доделал CRUD для работы с БД">
+      <change beforePath="$PROJECT_DIR$/.idea/ToDoFastAPIProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ToDoFastAPIProject.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ToDoApp/core/models/task_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoApp/core/models/task_model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ToDoApp/core/schemas/task_schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoApp/core/schemas/task_schema.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ToDoApp/core/utils/DatabaseWork.py" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoApp/core/utils/DatabaseWork.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ToDoApp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoApp/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/SQLAlchemyTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/SQLAlchemyTest.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +39,7 @@
   }
 }</component>
   <component name="GithubDefaultAccount">
-    <option name="defaultAccountId" value="acee5025-9506-455c-92ad-6810a6877626" />
+    <option name="defaultAccountId" value="9b14e766-615a-4697-9b79-9fc81ec06848" />
   </component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
@@ -50,34 +51,33 @@
   &quot;associatedIndex&quot;: 6
 }</component>
   <component name="ProjectId" id="32XmkMKqpd4S5eaYkRT2BKYy6Kn" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.DataWork.executor&quot;: &quot;Run&quot;,
-    &quot;Python.DatabaseWork.executor&quot;: &quot;Run&quot;,
-    &quot;Python.PydanticTest.executor&quot;: &quot;Run&quot;,
-    &quot;Python.SQLAlchemyTest.executor&quot;: &quot;Run&quot;,
-    &quot;Python.SampleTests.executor&quot;: &quot;Run&quot;,
-    &quot;Python.ToDoAppTest.executor&quot;: &quot;Debug&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.task_schema.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;test__sqlalchemy&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/sultan/PycharmProjects/ToDoFastAPIProject/ToDoApp/main.py&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.intellij.pycharm.community.ide.impl.configuration.PythonContentEntriesConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.DataWork.executor": "Run",
+    "Python.DatabaseWork.executor": "Run",
+    "Python.PydanticTest.executor": "Run",
+    "Python.SQLAlchemyTest.executor": "Run",
+    "Python.SampleTests.executor": "Run",
+    "Python.ToDoAppTest.executor": "Debug",
+    "Python.main.executor": "Run",
+    "Python.task_schema.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "test__sqlalchemy",
+    "last_opened_file_path": "C:/Users/sultan/PycharmProjects/ToDoFastAPIProject/ToDoApp/main.py",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\sultan\PycharmProjects\ToDoFastAPIProject\ToDoApp\core\data" />
@@ -96,7 +96,6 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.13 (ToDoFastAPIProject)" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -120,7 +119,6 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="SDK_NAME" value="Python 3.13 (ToDoFastAPIProject)" />
       <option name="WORKING_DIRECTORY" value="" />
       <option name="IS_MODULE_SDK" value="false" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
@@ -276,7 +274,8 @@
     <MESSAGE value="Обновление задач" />
     <MESSAGE value="Тестирование Pydantic, новая папка schemas для моделей Pydantic" />
     <MESSAGE value="Начат функционал подключения Postgres" />
-    <option name="LAST_COMMIT_MESSAGE" value="Начат функционал подключения Postgres" />
+    <MESSAGE value="Доделал CRUD для работы с БД" />
+    <option name="LAST_COMMIT_MESSAGE" value="Доделал CRUD для работы с БД" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -320,13 +319,13 @@
     </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/ToDoFastAPIProject$main.coverage" NAME="main Coverage Results" MODIFIED="1758889577747" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/ToDoFastAPIProject$SampleTests.coverage" NAME="SampleTests Coverage Results" MODIFIED="1758356677448" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/ToDoFastAPIProject$DatabaseWork.coverage" NAME="DatabaseWork Coverage Results" MODIFIED="1758806062726" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ToDoApp/core/utils" />
     <SUITE FILE_PATH="coverage/ToDoFastAPIProject$DataWork.coverage" NAME="DataWork Coverage Results" MODIFIED="1758730443356" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ToDoApp/core/utils" />
-    <SUITE FILE_PATH="coverage/ToDoFastAPIProject$main.coverage" NAME="main Coverage Results" MODIFIED="1758807677980" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/ToDoFastAPIProject$SQLAlchemyTest.coverage" NAME="SQLAlchemyTest Coverage Results" MODIFIED="1758805673107" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
     <SUITE FILE_PATH="coverage/ToDoFastAPIProject$task_schema.coverage" NAME="task_schema Coverage Results" MODIFIED="1758358766592" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ToDoApp/core/schemas" />
     <SUITE FILE_PATH="coverage/ToDoFastAPIProject$ToDoAppTest.coverage" NAME="ToDoAppTest Coverage Results" MODIFIED="1758179634573" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
     <SUITE FILE_PATH="coverage/ToDoFastAPIProject$PydanticTest.coverage" NAME="PydanticTest Coverage Results" MODIFIED="1758787255532" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
-    <SUITE FILE_PATH="coverage/ToDoFastAPIProject$SQLAlchemyTest.coverage" NAME="SQLAlchemyTest Coverage Results" MODIFIED="1758805673107" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
   </component>
 </project>

@@ -11,9 +11,7 @@ from ToDoApp.core.schemas.task_schema import Task
 from ToDoApp.core.models.task_model import Tasks
 from ToDoApp.dababase.db_helper import db
 
-
 app = FastAPI()
-
 
 filepath = "C:\\Users\\sultan\\PycharmProjects\\ToDoFastAPIProject\\ToDoApp\\core\\data\\tasks.json"
 schemas_filepath = "C:\\Users\\sultan\\PycharmProjects\\ToDoFastAPIProject\\ToDoApp\\core\\data\\schemas_tasks.json"
@@ -42,9 +40,11 @@ def get_todo():
 def get_todo():
     return DataWork.get_json(schemas_filepath)
 
+
 @app.get("/test/ToDo")
 def get_todo():
     return DatabaseWork.get_all_tasks()
+
 
 @app.get("/old/ToDo/{id_todo}")
 def get_todo_by_id(id_todo: int):
@@ -61,6 +61,7 @@ def get_todo_by_id(id_todo: int):
         if task["id"] == id_todo:
             return task
 
+
 @app.get("/test/ToDo/{task_id}")
 def get_todo_by_id(task_id: int):
     if DatabaseWork.is_id(task_id):
@@ -68,8 +69,7 @@ def get_todo_by_id(task_id: int):
         if task.id == task_id:
             return task.__dict__
     else:
-        return {"status" : "error", "message" : "there is no such id."}
-
+        return {"status": "error", "message": "there is no such id."}
 
 
 @app.get('/old/ToDo/add/task')
@@ -102,7 +102,6 @@ def add_task_from_schemas(new_task: Optional[str]):
         return {"status": "error", "message": f"{e}"}
 
 
-
 @app.get("/test/ToDo/add/task")
 def add_task_from_schemas(new_task: Optional[str]):
     try:
@@ -112,9 +111,9 @@ def add_task_from_schemas(new_task: Optional[str]):
             DatabaseWork.add_task(task)
             return {"status": "ok"}
         else:
-            return {"status" : "error", "message" : "task not be None"}
+            return {"status": "error", "message": "task not be None"}
     except Exception as e:
-        return {"status" : "error", "message" : f"{e}"}
+        return {"status": "error", "message": f"{e}"}
 
 
 @app.get('/ToDo/delete/task/{id_todo}')
@@ -136,15 +135,15 @@ def delete_task_by_id_schemas(id_todo: int):
 
     return {"status": "error", "message": f"{id_todo} id already exists"}
 
+
 @app.get('/test/ToDo/delete/task/{task_id}')
 def delete_task_by_id_schemas(task_id: int):
     task = DatabaseWork.delete_task(task_id)
 
     if task is not None:
-        return {"status" : "ok", "message" : f"{task}"}
+        return {"status": "ok", "message": f"{task.title} is delete"}
 
-    return {"status" : "error", "message" : "id not be exist"}
-
+    return {"status": "error", "message": "task not be exist"}
 
 
 @app.get("/ToDo/update/task")
@@ -164,6 +163,15 @@ def update_task_by_id(id_todo: int, new_task: str):
         return {"status": "ok"}
 
     return {"status": "error", "message": f"id {id_todo} not found"}
+
+@app.get("/test/ToDo/update/task")
+def update_task_by_id(task_id: int, new_task: str):
+    result = DatabaseWork.update_task(task_id, new_task)
+
+    if result is not None:
+        return {"status": "ok"}
+
+    return {"status": "error", "message": f"id {task_id} not found or title task value is empty"}
 
 
 if __name__ == "__main__":

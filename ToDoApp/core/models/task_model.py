@@ -1,6 +1,5 @@
-from sqlalchemy.orm import declarative_base, Mapped
+from sqlalchemy.orm import declarative_base
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.testing.schema import mapped_column
 
 Base = declarative_base()
 
