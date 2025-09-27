@@ -1,5 +1,3 @@
-from ToDoApp.core.utils import DataWork
-from ToDoApp.core.schemas.task_schema import Task
 from ToDoApp.dababase.db_helper import *
 from ToDoApp.core.models.task_model import Tasks
 

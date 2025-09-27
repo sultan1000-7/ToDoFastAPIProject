@@ -8,3 +8,7 @@ class Tasks(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String)
 
+    @property
+    def dict(self):
+        return {'id': self.id, 'title': self.title}
+

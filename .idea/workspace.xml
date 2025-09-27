@@ -5,12 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2171f080-822e-467c-839a-f2b8d5ba6b37" name="Changes" comment="Доделал CRUD для работы с БД">
-      <change beforePath="$PROJECT_DIR$/.idea/ToDoFastAPIProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ToDoFastAPIProject.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ToDoApp/core/data/schemas_tasks.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ToDoApp/core/data/tasks.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/ToDoApp/core/models/task_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoApp/core/models/task_model.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ToDoApp/core/schemas/task_schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoApp/core/schemas/task_schema.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ToDoApp/core/utils/DataWork.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/ToDoApp/core/utils/DatabaseWork.py" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoApp/core/utils/DatabaseWork.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ToDoApp/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoApp/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/PydanticTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/PydanticTest.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/SQLAlchemyTest.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/SQLAlchemyTest.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,12 +45,12 @@
   <component name="GithubDefaultAccount">
     <option name="defaultAccountId" value="9b14e766-615a-4697-9b79-9fc81ec06848" />
   </component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/sultan1000-7/ToDoFastAPIProject.git&quot;,
-    &quot;accountId&quot;: &quot;acee5025-9506-455c-92ad-6810a6877626&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/sultan1000-7/ToDoFastAPIProject.git",
+    "accountId": "9b14e766-615a-4697-9b79-9fc81ec06848"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 6
 }</component>
@@ -66,6 +70,7 @@
     "Python.main.executor": "Run",
     "Python.task_schema.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "test__sqlalchemy",
     "last_opened_file_path": "C:/Users/sultan/PycharmProjects/ToDoFastAPIProject/ToDoApp/main.py",
@@ -74,7 +79,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
+    "settings.editor.selected.configurable": "com.intellij.pycharm.community.ide.impl.configuration.PythonContentEntriesConfigurable",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -141,8 +146,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-PY-243.22562.220" />
-        <option value="bundled-python-sdk-0fc6c617c4bd-9a18a617cbe4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.22562.220" />
+        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-PY-252.25557.178" />
+        <option value="bundled-python-sdk-ce6832f46686-7b97d883f26b-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.25557.178" />
       </set>
     </attachedChunks>
   </component>
@@ -176,6 +181,7 @@
       <workItem from="1758804420899" duration="4719000" />
       <workItem from="1758827255263" duration="378000" />
       <workItem from="1758827937289" duration="245000" />
+      <workItem from="1758968607787" duration="5827000" />
     </task>
     <task id="LOCAL-00001" summary="Начало проекта">
       <option name="closed" value="true" />
@@ -249,7 +255,15 @@
       <option name="project" value="LOCAL" />
       <updated>1758797474563</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Доделал CRUD для работы с БД">
+      <option name="closed" value="true" />
+      <created>1758889847789</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1758889847789</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -276,47 +290,6 @@
     <MESSAGE value="Начат функционал подключения Postgres" />
     <MESSAGE value="Доделал CRUD для работы с БД" />
     <option name="LAST_COMMIT_MESSAGE" value="Доделал CRUD для работы с БД" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ToDoApp/core/utils/DataWork.py</url>
-          <line>73</line>
-          <option name="timeStamp" value="6" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ToDoApp/core/utils/DataWork.py</url>
-          <line>74</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ToDoApp/core/utils/DataWork.py</url>
-          <line>76</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ToDoApp/core/utils/DataWork.py</url>
-          <line>27</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ToDoApp/core/utils/DataWork.py</url>
-          <line>28</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ToDoApp/core/utils/DataWork.py</url>
-          <line>29</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/ToDoApp/core/utils/DataWork.py</url>
-          <line>30</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/ToDoFastAPIProject$main.coverage" NAME="main Coverage Results" MODIFIED="1758889577747" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />

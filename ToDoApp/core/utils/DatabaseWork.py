@@ -1,12 +1,13 @@
 import logging
+from time import sleep
 
+import asyncio
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy import select, delete, update
 
-from ..models.task_model import Tasks
-from ...dababase.db_helper import db
-from ..schemas.task_schema import Task
-from ..utils import DataWork
+from ToDoApp.core.models.task_model import Tasks
+from ToDoApp.dababase.db_helper import db
+from ToDoApp.core.schemas.task_schema import Task
 
 path_to_logging = "C:\\Users\\sultan\\PycharmProjects\\ToDoFastAPIProject\\log\\py_log.log"
 
@@ -17,6 +18,8 @@ logging.basicConfig(level=logging.DEBUG, filename=path_to_logging, filemode="w",
 def get_all_tasks():
     result = db.session.scalars(select(Tasks))
     logging.debug(result)
+
+    asyncio.sleep(10)
 
     if result is not None:
         return __db_to_list(result)
@@ -53,7 +56,6 @@ def delete_task(task_id: int):
         if task is None:
             return task
 
-        # db.session.delete(db.session.scalar(select(Tasks).where(Tasks.id == task_id)))
         db.session.query(Tasks).filter(Tasks.id == task_id).delete()
         db.session.commit()
 
