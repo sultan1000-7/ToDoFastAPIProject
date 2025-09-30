@@ -1,12 +1,11 @@
-from sqlalchemy.orm import declarative_base
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import String
+from sqlalchemy.orm import Mapped, mapped_column
 
-Base = declarative_base()
+from .base_model import Base
 
 class Tasks(Base):
     __tablename__ = 'tasks'
-    id = Column(Integer, primary_key=True)
-    title = Column(String)
+    title: Mapped[str] = mapped_column(String(50))
 
     @property
     def dict(self):
