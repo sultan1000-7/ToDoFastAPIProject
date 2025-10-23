@@ -15,74 +15,84 @@ logging.basicConfig(level=logging.DEBUG, filename=path_to_logging, filemode="w",
                     format="%(asctime)s %(levelname)s %(message)s")
 
 
-def get_all_tasks():
-    result = db.session.scalars(select(Tasks))
-    logging.debug(result)
+async def get_all_tasks():
+    async with db.session() as session:
+        result = await session.scalars(select(Tasks))
+        tasks = result.all()
+        logging.debug(tasks)
 
-    asyncio.sleep(10)
+        if result is None:
+            raise SQLAlchemyError("В таблице нет полей")
 
-    if result is not None:
-        return __db_to_list(result)
-    else:
-        raise SQLAlchemyError("В таблице нет полей")
-
-
-def get_task(task_id: int):
-    result = db.session.scalar(select(Tasks).where(Tasks.id == task_id))
-
-    if result is not None:
-        return result
-    else:
-        raise SQLAlchemyError("Данного id не существует")
+        return __db_to_list(tasks)
 
 
-def add_task(task: Task):
-    if task is not None:
-        new_task = Tasks(title=task.title)
-        db.session.add(new_task)
-        db.session.commit()
 
-        return new_task
+async def get_task(task_id: int):
+    async with db.session() as session:
+        result = await session.scalar(select(Tasks).where(Tasks.id == task_id))
 
-    return None
+        if result is None:
+            raise SQLAlchemyError("This id does not exist")
+
+        return {"id": result.id, "title": result.title}
 
 
-def delete_task(task_id: int):
-    if task_id is not None:
-        task = db.session.scalar(select(Tasks).where(Tasks.id == task_id))
+async def add_task(task: Task):
+    async with db.session() as session:
+        if task is not None:
+            new_task = Tasks(title=task.title)
+            session.add(new_task)
+            await session.commit()
+            await session.refresh(new_task)
+            return {"id": new_task.id, "title": new_task.title}
 
-        logging.debug(task)
+        return None
+
+
+
+
+async def delete_task(task_id: int):
+    async with db.session() as session:
+        task = await session.scalar(select(Tasks).where(Tasks.id == task_id))
 
         if task is None:
-            return task
+            return None
 
-        db.session.query(Tasks).filter(Tasks.id == task_id).delete()
-        db.session.commit()
+        await session.delete(task)
+        await session.commit()
 
-        return task
-
-    return None
+        return {"id": task.id, "title": task.title}
 
 
-def update_task(task_id: int, new_task: str):
-    if task_id is not None and new_task is not None:
-        db.session.query(Tasks).filter(Tasks.id == task_id).update({"title": new_task})
-        db.session.commit()
-        return new_task
+async def update_task(task_id: int, new_task: str):
+    async with db.session() as session:
+        if new_task is not None:
+            task = await session.scalar(select(Tasks).where(Tasks.id == task_id))
 
-    return None
+            if task is None:
+                return None
+
+            task.title = new_task
+            await session.commit()
+            await session.refresh(task)
+
+            return {"id": task.id, "title": task.title}
+
+        return None
 
 
-def is_id(task_id: int):
-    result = db.session.scalar(select(Tasks).where(Tasks.id == task_id))
+async def is_id(task_id: int) -> bool:
+    async with db.session() as session:
+        result = await session.scalar(select(Tasks).where(Tasks.id == task_id))
 
-    if result is not None:
-        return True
+        if result is not None:
+            return True
 
-    return False
+        return False
 
 
-def __db_to_list(tasks):
+def __db_to_list(tasks) -> list:
     result = []
     for task in tasks:
         result.append({"id": task.id, "title": task.title})

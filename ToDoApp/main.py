@@ -5,6 +5,8 @@ from fastapi import FastAPI
 from fastapi.openapi.docs import get_swagger_ui_html
 from typing import Optional
 
+from sqlalchemy.exc import SQLAlchemyError
+
 from ToDoApp.core.utils import DatabaseWork
 from ToDoApp.core.schemas.task_schema import Task
 
@@ -29,30 +31,31 @@ def read_docs():
     return get_swagger_ui_html(openapi_url="/openapi.json")
 
 @app.get("/todo")
-def get_todo():
-    return DatabaseWork.get_all_tasks()
+async def get_todo():
+    tasks = await DatabaseWork.get_all_tasks()
+    return tasks
 
 
 @app.get("/todo/{task_id}")
-def get_todo_by_id(task_id: int):
-    if DatabaseWork.is_id(task_id):
-        task = DatabaseWork.get_task(task_id)
+async def get_todo_by_id(task_id: int):
+    try:
+        task = await DatabaseWork.get_task(task_id)
         if task.id == task_id:
             return task.dict
 
         return {"status": "error", "message": "Task not found"}
-    else:
-        return {"status": "error", "message": "there is no such id."}
+    except SQLAlchemyError as e:
+        return {"status": "error", "message": str(e)}
 
 
 
 @app.get("/todo/add/task")
-def add_task_from_schemas(new_task: Optional[str]):
+async def add_task_from_schemas(new_task: Optional[str]):
     try:
         task = Task()
         task.title = new_task
         if task is not None:
-            DatabaseWork.add_task(task)
+            await DatabaseWork.add_task(task)
             return {"status": "ok"}
         else:
             return {"status": "error", "message": "task not be None"}
@@ -62,8 +65,8 @@ def add_task_from_schemas(new_task: Optional[str]):
 
 
 @app.get('/todo/delete/task/{task_id}')
-def delete_task_by_id_schemas(task_id: int):
-    task = DatabaseWork.delete_task(task_id)
+async def delete_task_by_id_schemas(task_id: int):
+    task = await DatabaseWork.delete_task(task_id)
 
     if task is not None:
         return {"status": "ok", "message": f"{task.title} is delete"}
@@ -72,8 +75,8 @@ def delete_task_by_id_schemas(task_id: int):
 
 
 @app.get("/todo/update/task")
-def update_task_by_id(task_id: int, new_task: str):
-    result = DatabaseWork.update_task(task_id, new_task)
+async def update_task_by_id(task_id: int, new_task: str):
+    result = await DatabaseWork.update_task(task_id, new_task)
 
     if result is not None:
         return {"status": "ok"}
