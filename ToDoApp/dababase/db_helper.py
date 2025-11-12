@@ -13,4 +13,4 @@ class DatabaseHelper:
 
 
 
-db = DatabaseHelper("postgresql+asyncpg://postgres:7SuLtAn13@localhost:5432/ToDo")
+db = DatabaseHelper("postgresql+asyncpg://fastapi:fastapi123@localhost:5432/ToDo")
