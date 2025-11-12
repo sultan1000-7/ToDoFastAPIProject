@@ -1,0 +1,425 @@
+Index: ToDoApp/dababase/db_helper.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from sqlalchemy import create_engine\r\nfrom sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine\r\nfrom sqlalchemy.orm import Session\r\n\r\n\r\n\r\nclass DatabaseHelper:\r\n    def __init__(self, url: str):\r\n        self.__engine = create_async_engine(url=url)\r\n\r\n        self.session = async_sessionmaker(self.__engine, expire_on_commit=False)\r\n\r\n\r\n\r\n\r\ndb = DatabaseHelper(\"postgresql://postgres:7SuLtAn13@localhost:5432/ToDo\")\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/ToDoApp/dababase/db_helper.py b/ToDoApp/dababase/db_helper.py
+--- a/ToDoApp/dababase/db_helper.py	(revision 795837689eabd54da0889c45623b792eac50824d)
++++ b/ToDoApp/dababase/db_helper.py	(date 1762940063981)
+@@ -1,14 +1,15 @@
+ from sqlalchemy import create_engine
+-from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine
++from sqlalchemy.ext.asyncio import async_sessionmaker, create_async_engine, AsyncSession
+ from sqlalchemy.orm import Session
++from sqlalchemy.orm import sessionmaker
+ 
+ 
+ 
+ class DatabaseHelper:
+     def __init__(self, url: str):
+-        self.__engine = create_async_engine(url=url)
++        self.__engine = create_async_engine(url=url, echo=True)
+ 
+-        self.session = async_sessionmaker(self.__engine, expire_on_commit=False)
++        self.session = async_sessionmaker(self.__engine, class_=AsyncSession ,expire_on_commit=False)
+ 
+ 
+ 
+Index: ToDoApp/core/models/task_model.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from sqlalchemy import String\r\nfrom sqlalchemy.orm import Mapped, mapped_column\r\n\r\nfrom .base_model import Base\r\n\r\nclass Tasks(Base):\r\n    __tablename__ = 'tasks'\r\n    title: Mapped[str] = mapped_column(String(50))\r\n\r\n    @property\r\n    def dict(self):\r\n        return {'id': self.id, 'title': self.title}\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/ToDoApp/core/models/task_model.py b/ToDoApp/core/models/task_model.py
+--- a/ToDoApp/core/models/task_model.py	(revision 795837689eabd54da0889c45623b792eac50824d)
++++ b/ToDoApp/core/models/task_model.py	(date 1759491858957)
+@@ -1,10 +1,14 @@
+ from sqlalchemy import String
+ from sqlalchemy.orm import Mapped, mapped_column
++from sqlalchemy.ext.declarative import declarative_base
+ 
+-from .base_model import Base
++# from .base_model import Base
++
++Base = declarative_base()
+ 
+ class Tasks(Base):
+     __tablename__ = 'tasks'
++    id: Mapped[int] = mapped_column(primary_key=True)
+     title: Mapped[str] = mapped_column(String(50))
+ 
+     @property
+Index: dependencies.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/dependencies.txt b/requirements.txt
+rename from dependencies.txt
+rename to requirements.txt
+--- a/dependencies.txt	(revision 795837689eabd54da0889c45623b792eac50824d)
++++ b/requirements.txt	(date 1759492866479)
+@@ -1,5 +1,6 @@
+ fastapi[all]
+ pydantic[all]
+ sqlalchemy
++asyncpg
+ psycopg2
+ requests
+\ No newline at end of file
+Index: ToDoApp/core/schemas/task_schema.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>from pydantic import BaseModel, Field, field_validator\r\n\r\n\r\n\r\nclass Task(BaseModel):\r\n    title: str = Field(default=\"task\", title=\"Название задачи\", alias=\"task_title\")\r\n\r\n    @classmethod\r\n    @field_validator(\"title\", mode=\"before\")\r\n    def validate_name(cls, title: str):\r\n        if title is None:\r\n            raise ValueError(\"incorrect variable values\")\r\n\r\n        return title
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/ToDoApp/core/schemas/task_schema.py b/ToDoApp/core/schemas/task_schema.py
+--- a/ToDoApp/core/schemas/task_schema.py	(revision 795837689eabd54da0889c45623b792eac50824d)
++++ b/ToDoApp/core/schemas/task_schema.py	(date 1759492765916)
+@@ -3,6 +3,7 @@
+ 
+ 
+ class Task(BaseModel):
++    id: int
+     title: str = Field(default="task", title="Название задачи", alias="task_title")
+ 
+     @classmethod
+@@ -11,4 +12,4 @@
+         if title is None:
+             raise ValueError("incorrect variable values")
+ 
+-        return title
+\ No newline at end of file
++        return title
+Index: ToDoApp/core/utils/DatabaseWork.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import logging\r\nfrom time import sleep\r\n\r\nimport asyncio\r\nfrom sqlalchemy.exc import SQLAlchemyError\r\nfrom sqlalchemy import select, delete, update\r\n\r\nfrom ToDoApp.core.models.task_model import Tasks\r\nfrom ToDoApp.dababase.db_helper import db\r\nfrom ToDoApp.core.schemas.task_schema import Task\r\n\r\npath_to_logging = \"C:\\\\Users\\\\sultan\\\\PycharmProjects\\\\ToDoFastAPIProject\\\\log\\\\py_log.log\"\r\n\r\nlogging.basicConfig(level=logging.DEBUG, filename=path_to_logging, filemode=\"w\",\r\n                    format=\"%(asctime)s %(levelname)s %(message)s\")\r\n\r\n\r\ndef get_all_tasks():\r\n    result = db.session.scalars(select(Tasks))\r\n    logging.debug(result)\r\n\r\n    asyncio.sleep(10)\r\n\r\n    if result is not None:\r\n        return __db_to_list(result)\r\n    else:\r\n        raise SQLAlchemyError(\"В таблице нет полей\")\r\n\r\n\r\ndef get_task(task_id: int):\r\n    result = db.session.scalar(select(Tasks).where(Tasks.id == task_id))\r\n\r\n    if result is not None:\r\n        return result\r\n    else:\r\n        raise SQLAlchemyError(\"Данного id не существует\")\r\n\r\n\r\ndef add_task(task: Task):\r\n    if task is not None:\r\n        new_task = Tasks(title=task.title)\r\n        db.session.add(new_task)\r\n        db.session.commit()\r\n\r\n        return new_task\r\n\r\n    return None\r\n\r\n\r\ndef delete_task(task_id: int):\r\n    if task_id is not None:\r\n        task = db.session.scalar(select(Tasks).where(Tasks.id == task_id))\r\n\r\n        logging.debug(task)\r\n\r\n        if task is None:\r\n            return task\r\n\r\n        db.session.query(Tasks).filter(Tasks.id == task_id).delete()\r\n        db.session.commit()\r\n\r\n        return task\r\n\r\n    return None\r\n\r\n\r\ndef update_task(task_id: int, new_task: str):\r\n    if task_id is not None and new_task is not None:\r\n        db.session.query(Tasks).filter(Tasks.id == task_id).update({\"title\": new_task})\r\n        db.session.commit()\r\n        return new_task\r\n\r\n    return None\r\n\r\n\r\ndef is_id(task_id: int):\r\n    result = db.session.scalar(select(Tasks).where(Tasks.id == task_id))\r\n\r\n    if result is not None:\r\n        return True\r\n\r\n    return False\r\n\r\n\r\ndef __db_to_list(tasks):\r\n    result = []\r\n    for task in tasks:\r\n        result.append({\"id\": task.id, \"title\": task.title})\r\n\r\n    return result\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/ToDoApp/core/utils/DatabaseWork.py b/ToDoApp/core/utils/DatabaseWork.py
+--- a/ToDoApp/core/utils/DatabaseWork.py	(revision 795837689eabd54da0889c45623b792eac50824d)
++++ b/ToDoApp/core/utils/DatabaseWork.py	(date 1759492498257)
+@@ -15,20 +15,18 @@
+                     format="%(asctime)s %(levelname)s %(message)s")
+ 
+ 
+-def get_all_tasks():
+-    result = db.session.scalars(select(Tasks))
++async def get_all_tasks():
++    result = await db.session.scalars(select(Tasks))
+     logging.debug(result)
+ 
+-    asyncio.sleep(10)
+-
+     if result is not None:
+         return __db_to_list(result)
+     else:
+         raise SQLAlchemyError("В таблице нет полей")
+ 
+ 
+-def get_task(task_id: int):
+-    result = db.session.scalar(select(Tasks).where(Tasks.id == task_id))
++async def get_task(task_id: int):
++    result = await db.session.scalar(select(Tasks).where(Tasks.id == task_id))
+ 
+     if result is not None:
+         return result
+@@ -36,45 +34,45 @@
+         raise SQLAlchemyError("Данного id не существует")
+ 
+ 
+-def add_task(task: Task):
++async def add_task(task: Task):
+     if task is not None:
+         new_task = Tasks(title=task.title)
+-        db.session.add(new_task)
+-        db.session.commit()
++        await db.session.add(new_task)
++        await db.session.commit()
+ 
+         return new_task
+ 
+     return None
+ 
+ 
+-def delete_task(task_id: int):
++async def delete_task(task_id: int):
+     if task_id is not None:
+-        task = db.session.scalar(select(Tasks).where(Tasks.id == task_id))
++        task = await db.session.scalar(select(Tasks).where(Tasks.id == task_id))
+ 
+         logging.debug(task)
+ 
+         if task is None:
+             return task
+ 
+-        db.session.query(Tasks).filter(Tasks.id == task_id).delete()
+-        db.session.commit()
++        await db.session.query(Tasks).filter(Tasks.id == task_id).delete()
++        await db.session.commit()
+ 
+         return task
+ 
+     return None
+ 
+ 
+-def update_task(task_id: int, new_task: str):
++async def update_task(task_id: int, new_task: str):
+     if task_id is not None and new_task is not None:
+-        db.session.query(Tasks).filter(Tasks.id == task_id).update({"title": new_task})
+-        db.session.commit()
++        await db.session.query(Tasks).filter(Tasks.id == task_id).update({"title": new_task})
++        await db.session.commit()
+         return new_task
+ 
+     return None
+ 
+ 
+-def is_id(task_id: int):
+-    result = db.session.scalar(select(Tasks).where(Tasks.id == task_id))
++async def is_id(task_id: int):
++    result = await db.session.scalar(select(Tasks).where(Tasks.id == task_id))
+ 
+     if result is not None:
+         return True
+Index: tests/SampleTests.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>task = \"   2 \"\r\n\r\nprint(len(task.split()) == 0)
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/tests/SampleTests.py b/tests/SampleTests.py
+--- a/tests/SampleTests.py	(revision 795837689eabd54da0889c45623b792eac50824d)
++++ b/tests/SampleTests.py	(date 1759315445906)
+@@ -1,3 +1,3 @@
+-task = "   2 "
++result = True | False + 1
+ 
+-print(len(task.split()) == 0)
+\ No newline at end of file
++print(result)
+\ No newline at end of file
+Index: .idea/ToDoFastAPIProject.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module type=\"PYTHON_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\">\r\n    <content url=\"file://$MODULE_DIR$\">\r\n      <excludeFolder url=\"file://$MODULE_DIR$/.venv\" />\r\n    </content>\r\n    <orderEntry type=\"jdk\" jdkName=\"Python 3.13\" jdkType=\"Python SDK\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n  </component>\r\n  <component name=\"PyNamespacePackagesService\">\r\n    <option name=\"namespacePackageFolders\">\r\n      <list>\r\n        <option value=\"$MODULE_DIR$/ToDoApp/core\" />\r\n        <option value=\"$MODULE_DIR$/ToDoApp/core/utils\" />\r\n        <option value=\"$MODULE_DIR$/ToDoApp\" />\r\n        <option value=\"$MODULE_DIR$/ToDoApp/api\" />\r\n        <option value=\"$MODULE_DIR$/ToDoApp/core/data\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n</module>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/ToDoFastAPIProject.iml b/.idea/ToDoFastAPIProject.iml
+--- a/.idea/ToDoFastAPIProject.iml	(revision 795837689eabd54da0889c45623b792eac50824d)
++++ b/.idea/ToDoFastAPIProject.iml	(date 1759235299047)
+@@ -4,7 +4,7 @@
+     <content url="file://$MODULE_DIR$">
+       <excludeFolder url="file://$MODULE_DIR$/.venv" />
+     </content>
+-    <orderEntry type="jdk" jdkName="Python 3.13" jdkType="Python SDK" />
++    <orderEntry type="jdk" jdkName="Python 3.13 (ToDoFastAPIProject)" jdkType="Python SDK" />
+     <orderEntry type="sourceFolder" forTests="false" />
+   </component>
+   <component name="PyNamespacePackagesService">
+@@ -14,7 +14,6 @@
+         <option value="$MODULE_DIR$/ToDoApp/core/utils" />
+         <option value="$MODULE_DIR$/ToDoApp" />
+         <option value="$MODULE_DIR$/ToDoApp/api" />
+-        <option value="$MODULE_DIR$/ToDoApp/core/data" />
+       </list>
+     </option>
+   </component>
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"2171f080-822e-467c-839a-f2b8d5ba6b37\" name=\"Changes\" comment=\"Удаление ненужного кода и файлов\">\r\n      <change afterPath=\"$PROJECT_DIR$/ToDoApp/core/models/base_model.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ToDoApp/core/models/task_model.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ToDoApp/core/models/task_model.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/ToDoApp/dababase/db_helper.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/ToDoApp/dababase/db_helper.py\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Python Script\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"test_pydantic\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;lastFilter&quot;: {\r\n    &quot;state&quot;: &quot;OPEN&quot;,\r\n    &quot;assignee&quot;: &quot;sultan1000-7&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubDefaultAccount\">\r\n    <option name=\"defaultAccountId\" value=\"9b14e766-615a-4697-9b79-9fc81ec06848\" />\r\n  </component>\r\n  <component name=\"GithubPullRequestsUISettings\">{\r\n  &quot;selectedUrlAndAccountId&quot;: {\r\n    &quot;url&quot;: &quot;https://github.com/sultan1000-7/ToDoFastAPIProject.git&quot;,\r\n    &quot;accountId&quot;: &quot;9b14e766-615a-4697-9b79-9fc81ec06848&quot;\r\n  }\r\n}</component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 6\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"32XmkMKqpd4S5eaYkRT2BKYy6Kn\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;Python.DataWork.executor&quot;: &quot;Run&quot;,\r\n    &quot;Python.DatabaseWork.executor&quot;: &quot;Run&quot;,\r\n    &quot;Python.PydanticTest.executor&quot;: &quot;Run&quot;,\r\n    &quot;Python.SQLAlchemyTest.executor&quot;: &quot;Run&quot;,\r\n    &quot;Python.SampleTests.executor&quot;: &quot;Run&quot;,\r\n    &quot;Python.ToDoAppTest.executor&quot;: &quot;Debug&quot;,\r\n    &quot;Python.main.executor&quot;: &quot;Run&quot;,\r\n    &quot;Python.task_schema.executor&quot;: &quot;Run&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;test__sqlalchemy&quot;,\r\n    &quot;last_opened_file_path&quot;: &quot;C:/Users/sultan/PycharmProjects/ToDoFastAPIProject/ToDoApp/main.py&quot;,\r\n    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,\r\n    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,\r\n    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;com.intellij.pycharm.community.ide.impl.configuration.PythonContentEntriesConfigurable&quot;,\r\n    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;\r\n  }\r\n}</component>\r\n  <component name=\"RecentsManager\">\r\n    <key name=\"MoveFile.RECENT_KEYS\">\r\n      <recent name=\"C:\\Users\\sultan\\PycharmProjects\\ToDoFastAPIProject\\ToDoApp\\core\\data\" />\r\n      <recent name=\"C:\\Users\\sultan\\PycharmProjects\\ToDoFastAPIProject\\ToDoApp\\core\\utils\" />\r\n      <recent name=\"C:\\Users\\sultan\\PycharmProjects\\ToDoFastAPIProject\" />\r\n      <recent name=\"C:\\Users\\sultan\\PycharmProjects\\ToDoFastAPIProject\\tasks\" />\r\n    </key>\r\n  </component>\r\n  <component name=\"RunManager\" selected=\"Python.main\">\r\n    <configuration name=\"ToDoAppTest\" type=\"PythonConfigurationType\" factoryName=\"Python\" nameIsGenerated=\"true\">\r\n      <module name=\"ToDoFastAPIProject\" />\r\n      <option name=\"ENV_FILES\" value=\"\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"false\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/tests/ToDoAppTest.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <configuration name=\"main\" type=\"PythonConfigurationType\" factoryName=\"Python\" nameIsGenerated=\"true\">\r\n      <module name=\"ToDoFastAPIProject\" />\r\n      <option name=\"ENV_FILES\" value=\"\" />\r\n      <option name=\"INTERPRETER_OPTIONS\" value=\"\" />\r\n      <option name=\"PARENT_ENVS\" value=\"true\" />\r\n      <envs>\r\n        <env name=\"PYTHONUNBUFFERED\" value=\"1\" />\r\n      </envs>\r\n      <option name=\"SDK_HOME\" value=\"\" />\r\n      <option name=\"WORKING_DIRECTORY\" value=\"\" />\r\n      <option name=\"IS_MODULE_SDK\" value=\"false\" />\r\n      <option name=\"ADD_CONTENT_ROOTS\" value=\"true\" />\r\n      <option name=\"ADD_SOURCE_ROOTS\" value=\"true\" />\r\n      <EXTENSION ID=\"PythonCoverageRunConfigurationExtension\" runner=\"coverage.py\" />\r\n      <option name=\"SCRIPT_NAME\" value=\"$PROJECT_DIR$/ToDoApp/main.py\" />\r\n      <option name=\"PARAMETERS\" value=\"\" />\r\n      <option name=\"SHOW_COMMAND_LINE\" value=\"false\" />\r\n      <option name=\"EMULATE_TERMINAL\" value=\"false\" />\r\n      <option name=\"MODULE_MODE\" value=\"false\" />\r\n      <option name=\"REDIRECT_INPUT\" value=\"false\" />\r\n      <option name=\"INPUT_FILE\" value=\"\" />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n    <list>\r\n      <item itemvalue=\"Python.ToDoAppTest\" />\r\n      <item itemvalue=\"Python.main\" />\r\n    </list>\r\n  </component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-PY-252.25557.178\" />\r\n        <option value=\"bundled-python-sdk-ce6832f46686-7b97d883f26b-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.25557.178\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"2171f080-822e-467c-839a-f2b8d5ba6b37\" name=\"Changes\" comment=\"\" />\r\n      <created>1757575433323</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1757575433323</updated>\r\n      <workItem from=\"1757575434486\" duration=\"1906000\" />\r\n      <workItem from=\"1758043969415\" duration=\"5859000\" />\r\n      <workItem from=\"1758095567150\" duration=\"4777000\" />\r\n      <workItem from=\"1758100411602\" duration=\"4837000\" />\r\n      <workItem from=\"1758108176815\" duration=\"1088000\" />\r\n      <workItem from=\"1758177431681\" duration=\"2797000\" />\r\n      <workItem from=\"1758191762740\" duration=\"3935000\" />\r\n      <workItem from=\"1758223160966\" duration=\"285000\" />\r\n      <workItem from=\"1758265909322\" duration=\"1543000\" />\r\n      <workItem from=\"1758306707891\" duration=\"718000\" />\r\n      <workItem from=\"1758307578921\" duration=\"50000\" />\r\n      <workItem from=\"1758307685336\" duration=\"1642000\" />\r\n      <workItem from=\"1758309404367\" duration=\"2087000\" />\r\n      <workItem from=\"1758354818157\" duration=\"4335000\" />\r\n      <workItem from=\"1758552535629\" duration=\"3908000\" />\r\n      <workItem from=\"1758717574304\" duration=\"218000\" />\r\n      <workItem from=\"1758719334974\" duration=\"11000\" />\r\n      <workItem from=\"1758728255449\" duration=\"2705000\" />\r\n      <workItem from=\"1758784820249\" duration=\"5744000\" />\r\n      <workItem from=\"1758804420899\" duration=\"4719000\" />\r\n      <workItem from=\"1758827255263\" duration=\"378000\" />\r\n      <workItem from=\"1758827937289\" duration=\"245000\" />\r\n      <workItem from=\"1758968607787\" duration=\"8947000\" />\r\n      <workItem from=\"1759054921586\" duration=\"707000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"Начало проекта\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1757577140266</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1757577140266</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Начало проекта\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1757577240499</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1757577240499</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00003\" summary=\"Тесты с записью и чтением json файла\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1758049730630</created>\r\n      <option name=\"number\" value=\"00003\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00003\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1758049730630</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00004\" summary=\"Тесты с записью и чтением json файла\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1758049739543</created>\r\n      <option name=\"number\" value=\"00004\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00004\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1758049739543</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00005\" summary=\"Логи и добавление задач\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1758109225061</created>\r\n      <option name=\"number\" value=\"00005\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00005\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1758109225061</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00006\" summary=\"Удаление задач\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1758180245760</created>\r\n      <option name=\"number\" value=\"00006\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00006\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1758180245761</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00007\" summary=\"Обновление задач\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1758205642295</created>\r\n      <option name=\"number\" value=\"00007\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00007\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1758205642295</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00008\" summary=\"Тестирование Pydantic, новая папка schemas для моделей Pydantic\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1758359172662</created>\r\n      <option name=\"number\" value=\"00008\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00008\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1758359172662</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00009\" summary=\"Начат функционал подключения Postgres\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1758797474563</created>\r\n      <option name=\"number\" value=\"00009\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00009\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1758797474563</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00010\" summary=\"Доделал CRUD для работы с БД\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1758889847789</created>\r\n      <option name=\"number\" value=\"00010\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00010\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1758889847789</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00011\" summary=\"Удаление ненужного кода и файлов\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1758974502137</created>\r\n      <option name=\"number\" value=\"00011\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00011\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1758974502137</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"12\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"Начало проекта\" />\r\n    <MESSAGE value=\"Тесты с записью и чтением json файла\" />\r\n    <MESSAGE value=\"Логи и добавление задач\" />\r\n    <MESSAGE value=\"Удаление задач\" />\r\n    <MESSAGE value=\"Обновление задач\" />\r\n    <MESSAGE value=\"Тестирование Pydantic, новая папка schemas для моделей Pydantic\" />\r\n    <MESSAGE value=\"Начат функционал подключения Postgres\" />\r\n    <MESSAGE value=\"Доделал CRUD для работы с БД\" />\r\n    <MESSAGE value=\"Удаление ненужного кода и файлов\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Удаление ненужного кода и файлов\" />\r\n  </component>\r\n  <component name=\"com.intellij.coverage.CoverageDataManagerImpl\">\r\n    <SUITE FILE_PATH=\"coverage/ToDoFastAPIProject$main.coverage\" NAME=\"main Coverage Results\" MODIFIED=\"1758889577747\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"\" />\r\n    <SUITE FILE_PATH=\"coverage/ToDoFastAPIProject$SampleTests.coverage\" NAME=\"SampleTests Coverage Results\" MODIFIED=\"1758356677448\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/tests\" />\r\n    <SUITE FILE_PATH=\"coverage/ToDoFastAPIProject$DatabaseWork.coverage\" NAME=\"DatabaseWork Coverage Results\" MODIFIED=\"1758806062726\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/ToDoApp/core/utils\" />\r\n    <SUITE FILE_PATH=\"coverage/ToDoFastAPIProject$DataWork.coverage\" NAME=\"DataWork Coverage Results\" MODIFIED=\"1758730443356\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/ToDoApp/core/utils\" />\r\n    <SUITE FILE_PATH=\"coverage/ToDoFastAPIProject$SQLAlchemyTest.coverage\" NAME=\"SQLAlchemyTest Coverage Results\" MODIFIED=\"1758805673107\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/tests\" />\r\n    <SUITE FILE_PATH=\"coverage/ToDoFastAPIProject$task_schema.coverage\" NAME=\"task_schema Coverage Results\" MODIFIED=\"1758358766592\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/ToDoApp/core/schemas\" />\r\n    <SUITE FILE_PATH=\"coverage/ToDoFastAPIProject$ToDoAppTest.coverage\" NAME=\"ToDoAppTest Coverage Results\" MODIFIED=\"1758179634573\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"\" />\r\n    <SUITE FILE_PATH=\"coverage/ToDoFastAPIProject$PydanticTest.coverage\" NAME=\"PydanticTest Coverage Results\" MODIFIED=\"1758787255532\" SOURCE_PROVIDER=\"com.intellij.coverage.DefaultCoverageFileProvider\" RUNNER=\"coverage.py\" COVERAGE_BY_TEST_ENABLED=\"false\" COVERAGE_TRACING_ENABLED=\"false\" WORKING_DIRECTORY=\"$PROJECT_DIR$/tests\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 795837689eabd54da0889c45623b792eac50824d)
++++ b/.idea/workspace.xml	(date 1762940064066)
+@@ -4,11 +4,15 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="2171f080-822e-467c-839a-f2b8d5ba6b37" name="Changes" comment="Удаление ненужного кода и файлов">
+-      <change afterPath="$PROJECT_DIR$/ToDoApp/core/models/base_model.py" afterDir="false" />
++    <list default="true" id="2171f080-822e-467c-839a-f2b8d5ba6b37" name="Changes" comment="Начат функционал подключения Postgres">
++      <change beforePath="$PROJECT_DIR$/.idea/ToDoFastAPIProject.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/ToDoFastAPIProject.iml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/ToDoApp/core/models/task_model.py" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoApp/core/models/task_model.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/ToDoApp/core/schemas/task_schema.py" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoApp/core/schemas/task_schema.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/ToDoApp/core/utils/DatabaseWork.py" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoApp/core/utils/DatabaseWork.py" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/ToDoApp/dababase/db_helper.py" beforeDir="false" afterPath="$PROJECT_DIR$/ToDoApp/dababase/db_helper.py" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/dependencies.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/tests/SampleTests.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/SampleTests.py" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -37,46 +41,46 @@
+   }
+ }</component>
+   <component name="GithubDefaultAccount">
+-    <option name="defaultAccountId" value="9b14e766-615a-4697-9b79-9fc81ec06848" />
++    <option name="defaultAccountId" value="acee5025-9506-455c-92ad-6810a6877626" />
+   </component>
+   <component name="GithubPullRequestsUISettings">{
+   &quot;selectedUrlAndAccountId&quot;: {
+     &quot;url&quot;: &quot;https://github.com/sultan1000-7/ToDoFastAPIProject.git&quot;,
+-    &quot;accountId&quot;: &quot;9b14e766-615a-4697-9b79-9fc81ec06848&quot;
++    &quot;accountId&quot;: &quot;acee5025-9506-455c-92ad-6810a6877626&quot;
+   }
+ }</component>
+   <component name="ProjectColorInfo">{
+   &quot;associatedIndex&quot;: 6
+ }</component>
+   <component name="ProjectId" id="32XmkMKqpd4S5eaYkRT2BKYy6Kn" />
++  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+   <component name="ProjectViewState">
+     <option name="hideEmptyMiddlePackages" value="true" />
+     <option name="showLibraryContents" value="true" />
+   </component>
+-  <component name="PropertiesComponent">{
+-  &quot;keyToString&quot;: {
+-    &quot;Python.DataWork.executor&quot;: &quot;Run&quot;,
+-    &quot;Python.DatabaseWork.executor&quot;: &quot;Run&quot;,
+-    &quot;Python.PydanticTest.executor&quot;: &quot;Run&quot;,
+-    &quot;Python.SQLAlchemyTest.executor&quot;: &quot;Run&quot;,
+-    &quot;Python.SampleTests.executor&quot;: &quot;Run&quot;,
+-    &quot;Python.ToDoAppTest.executor&quot;: &quot;Debug&quot;,
+-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
+-    &quot;Python.task_schema.executor&quot;: &quot;Run&quot;,
+-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+-    &quot;git-widget-placeholder&quot;: &quot;test__sqlalchemy&quot;,
+-    &quot;last_opened_file_path&quot;: &quot;C:/Users/sultan/PycharmProjects/ToDoFastAPIProject/ToDoApp/main.py&quot;,
+-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+-    &quot;settings.editor.selected.configurable&quot;: &quot;com.intellij.pycharm.community.ide.impl.configuration.PythonContentEntriesConfigurable&quot;,
+-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
++  <component name="PropertiesComponent"><![CDATA[{
++  "keyToString": {
++    "Python.DataWork.executor": "Run",
++    "Python.DatabaseWork.executor": "Run",
++    "Python.PydanticTest.executor": "Run",
++    "Python.SQLAlchemyTest.executor": "Run",
++    "Python.SampleTests.executor": "Run",
++    "Python.ToDoAppTest.executor": "Run",
++    "Python.main.executor": "Run",
++    "Python.task_schema.executor": "Run",
++    "RunOnceActivity.ShowReadmeOnStart": "true",
++    "RunOnceActivity.git.unshallow": "true",
++    "git-widget-placeholder": "test__sqlalchemy",
++    "last_opened_file_path": "C:/Users/sultan/PycharmProjects/ToDoFastAPIProject/ToDoApp/main.py",
++    "node.js.detected.package.eslint": "true",
++    "node.js.detected.package.tslint": "true",
++    "node.js.selected.package.eslint": "(autodetect)",
++    "node.js.selected.package.tslint": "(autodetect)",
++    "nodejs_package_manager_path": "npm",
++    "settings.editor.selected.configurable": "com.intellij.pycharm.community.ide.impl.configuration.PythonContentEntriesConfigurable",
++    "vue.rearranger.settings.migration": "true"
+   }
+-}</component>
++}]]></component>
+   <component name="RecentsManager">
+     <key name="MoveFile.RECENT_KEYS">
+       <recent name="C:\Users\sultan\PycharmProjects\ToDoFastAPIProject\ToDoApp\core\data" />
+@@ -95,6 +99,7 @@
+         <env name="PYTHONUNBUFFERED" value="1" />
+       </envs>
+       <option name="SDK_HOME" value="" />
++      <option name="SDK_NAME" value="Python 3.13 (ToDoFastAPIProject)" />
+       <option name="WORKING_DIRECTORY" value="" />
+       <option name="IS_MODULE_SDK" value="false" />
+       <option name="ADD_CONTENT_ROOTS" value="true" />
+@@ -118,6 +123,7 @@
+         <env name="PYTHONUNBUFFERED" value="1" />
+       </envs>
+       <option name="SDK_HOME" value="" />
++      <option name="SDK_NAME" value="Python 3.13 (ToDoFastAPIProject)" />
+       <option name="WORKING_DIRECTORY" value="" />
+       <option name="IS_MODULE_SDK" value="false" />
+       <option name="ADD_CONTENT_ROOTS" value="true" />
+@@ -140,8 +146,8 @@
+   <component name="SharedIndexes">
+     <attachedChunks>
+       <set>
+-        <option value="bundled-js-predefined-d6986cc7102b-b598e85cdad2-JavaScript-PY-252.25557.178" />
+-        <option value="bundled-python-sdk-ce6832f46686-7b97d883f26b-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-252.25557.178" />
++        <option value="bundled-js-predefined-d6986cc7102b-deb605915726-JavaScript-PY-243.22562.220" />
++        <option value="bundled-python-sdk-0fc6c617c4bd-9a18a617cbe4-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.22562.220" />
+       </set>
+     </attachedChunks>
+   </component>
+@@ -175,8 +181,10 @@
+       <workItem from="1758804420899" duration="4719000" />
+       <workItem from="1758827255263" duration="378000" />
+       <workItem from="1758827937289" duration="245000" />
+-      <workItem from="1758968607787" duration="8947000" />
+-      <workItem from="1759054921586" duration="707000" />
++      <workItem from="1759315413320" duration="1851000" />
++      <workItem from="1759491592919" duration="1448000" />
++      <workItem from="1760086073058" duration="242000" />
++      <workItem from="1762938383850" duration="1662000" />
+     </task>
+     <task id="LOCAL-00001" summary="Начало проекта">
+       <option name="closed" value="true" />
+@@ -250,23 +258,7 @@
+       <option name="project" value="LOCAL" />
+       <updated>1758797474563</updated>
+     </task>
+-    <task id="LOCAL-00010" summary="Доделал CRUD для работы с БД">
+-      <option name="closed" value="true" />
+-      <created>1758889847789</created>
+-      <option name="number" value="00010" />
+-      <option name="presentableId" value="LOCAL-00010" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1758889847789</updated>
+-    </task>
+-    <task id="LOCAL-00011" summary="Удаление ненужного кода и файлов">
+-      <option name="closed" value="true" />
+-      <created>1758974502137</created>
+-      <option name="number" value="00011" />
+-      <option name="presentableId" value="LOCAL-00011" />
+-      <option name="project" value="LOCAL" />
+-      <updated>1758974502137</updated>
+-    </task>
+-    <option name="localTasksCounter" value="12" />
++    <option name="localTasksCounter" value="10" />
+     <servers />
+   </component>
+   <component name="TypeScriptGeneratedFilesManager">
+@@ -291,18 +283,16 @@
+     <MESSAGE value="Обновление задач" />
+     <MESSAGE value="Тестирование Pydantic, новая папка schemas для моделей Pydantic" />
+     <MESSAGE value="Начат функционал подключения Postgres" />
+-    <MESSAGE value="Доделал CRUD для работы с БД" />
+-    <MESSAGE value="Удаление ненужного кода и файлов" />
+-    <option name="LAST_COMMIT_MESSAGE" value="Удаление ненужного кода и файлов" />
++    <option name="LAST_COMMIT_MESSAGE" value="Начат функционал подключения Postgres" />
+   </component>
+   <component name="com.intellij.coverage.CoverageDataManagerImpl">
+-    <SUITE FILE_PATH="coverage/ToDoFastAPIProject$main.coverage" NAME="main Coverage Results" MODIFIED="1758889577747" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+-    <SUITE FILE_PATH="coverage/ToDoFastAPIProject$SampleTests.coverage" NAME="SampleTests Coverage Results" MODIFIED="1758356677448" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+     <SUITE FILE_PATH="coverage/ToDoFastAPIProject$DatabaseWork.coverage" NAME="DatabaseWork Coverage Results" MODIFIED="1758806062726" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ToDoApp/core/utils" />
++    <SUITE FILE_PATH="coverage/ToDoFastAPIProject$SampleTests.coverage" NAME="SampleTests Coverage Results" MODIFIED="1759315445996" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+     <SUITE FILE_PATH="coverage/ToDoFastAPIProject$DataWork.coverage" NAME="DataWork Coverage Results" MODIFIED="1758730443356" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ToDoApp/core/utils" />
+-    <SUITE FILE_PATH="coverage/ToDoFastAPIProject$SQLAlchemyTest.coverage" NAME="SQLAlchemyTest Coverage Results" MODIFIED="1758805673107" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
++    <SUITE FILE_PATH="coverage/ToDoFastAPIProject$main.coverage" NAME="main Coverage Results" MODIFIED="1758807677980" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+     <SUITE FILE_PATH="coverage/ToDoFastAPIProject$task_schema.coverage" NAME="task_schema Coverage Results" MODIFIED="1758358766592" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/ToDoApp/core/schemas" />
+     <SUITE FILE_PATH="coverage/ToDoFastAPIProject$ToDoAppTest.coverage" NAME="ToDoAppTest Coverage Results" MODIFIED="1758179634573" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+     <SUITE FILE_PATH="coverage/ToDoFastAPIProject$PydanticTest.coverage" NAME="PydanticTest Coverage Results" MODIFIED="1758787255532" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
++    <SUITE FILE_PATH="coverage/ToDoFastAPIProject$SQLAlchemyTest.coverage" NAME="SQLAlchemyTest Coverage Results" MODIFIED="1758805673107" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/tests" />
+   </component>
+ </project>
+\ No newline at end of file

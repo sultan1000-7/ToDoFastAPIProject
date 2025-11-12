@@ -1,3 +1,3 @@
-task = "   2 "
+result = True | False + 1
 
-print(len(task.split()) == 0)
+print(result)
