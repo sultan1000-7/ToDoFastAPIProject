@@ -1,4 +1,6 @@
 fastapi[all]
 pydantic[all]
 sqlalchemy
+asyncpg
+psycopg2
 requests
