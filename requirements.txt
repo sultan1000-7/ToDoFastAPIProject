@@ -1,5 +1,5 @@
-fastapi[all]
-pydantic[all]
+fastapi
+pydantic
 sqlalchemy
 asyncpg
 psycopg2
